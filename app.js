@@ -95,6 +95,23 @@ async function Create(email, phoneNumber) {
               { linkPrecedence: "secondary", linkedId: idtobekeptprimary }
             );
           }
+
+        
+        // creating new account as secondary account
+        else if (
+            allEmails.includes(email) ||
+            allnumbers.includes(phoneNumber)
+          ) {
+            console.log("in else if");
+            SAVE(
+              (email = email),
+              (number = phoneNumber),
+              (linkPrecedence = "secondary"),
+              (linkedId = idtobekeptprimary),
+              (_id = countID)
+            );
+          }
+
         }
     });
 };
