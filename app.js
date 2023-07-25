@@ -156,7 +156,7 @@ app.post("/identify", async function (req, res) {
         });
       });
 
-      
+
       if (id_primary)
       {
           await Contact.find({ $or : [{ linkedId : id_primary}, {_id: id_primary}]
@@ -181,6 +181,16 @@ app.post("/identify", async function (req, res) {
           });
         }  
     }, 1000);
+
+    setTimeout(() => {
+        res.send({
+        "contact":{
+          "primaryContatctId": id_primary,
+          "emails": comprehensive_emails,
+          "phoneNumbers": comprehensive_numbers,
+          "secondaryContactIds": secondaryIdArray,
+        } })}, 2000);
+        
 });
 
 
