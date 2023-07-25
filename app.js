@@ -127,8 +127,36 @@ async function Create(email, phoneNumber) {
     });
 };
   
-
-
+app.post("/identify", async function (req, res) {
+    const {email, phoneNumber} = req.body;
+  
+    var id_primary = null;
+    const comprehensive_emails = [];
+    const comprehensive_numbers = [];
+    const secondaryIdArray = [];
+  
+  
+      if (email && phoneNumber) {                 // Insert data into database if both
+        Create(email, phoneNumber);               // email and number exists otherwise only 
+      };                                          // find action will take place.
+  
+    setTimeout(async () => {
+      await Contact.find({
+        $or: [{ email: email }, { phoneNumber: phoneNumber }],
+      }).then(function (dataArray) {
+  
+        dataArray.forEach(function (object) {
+  
+          if (object.linkPrecedence == "secondary") {
+              id_primary = object.linkedId;
+          } else {
+              id_primary = object._id;
+          }
+  
+        });
+      });
+    }, 1000);
+});
 
 
 app.listen(3000 || process.env.PORT, function () {
