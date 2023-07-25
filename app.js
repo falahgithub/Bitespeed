@@ -102,12 +102,23 @@ async function Create(email, phoneNumber) {
             allEmails.includes(email) ||
             allnumbers.includes(phoneNumber)
           ) {
-            console.log("in else if");
             SAVE(
               (email = email),
               (number = phoneNumber),
               (linkPrecedence = "secondary"),
               (linkedId = idtobekeptprimary),
+              (_id = countID)
+            );
+          }
+
+        
+        //creating new account as primary account
+        else {
+            SAVE(
+              (email = email),
+              (number = phoneNumber),
+              (linkPrecedence = "primary"),
+              (linkedId = null),
               (_id = countID)
             );
           }
