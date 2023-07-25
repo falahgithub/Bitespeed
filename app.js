@@ -155,6 +155,31 @@ app.post("/identify", async function (req, res) {
   
         });
       });
+
+      
+      if (id_primary)
+      {
+          await Contact.find({ $or : [{ linkedId : id_primary}, {_id: id_primary}]
+          }).then(function (dataArray) {
+            dataArray.forEach(function (object) {
+      
+              if (!comprehensive_emails.includes(object.email) ) {
+                comprehensive_emails.push(object.email);
+              };
+              if (!comprehensive_numbers.includes(object.phoneNumber)) {
+                comprehensive_numbers.push(object.phoneNumber);
+              };
+      
+              if (object.linkPrecedence === "secondary") {
+                secondaryIdArray.push(object._id);
+                id_primary = object.linkedId;
+              }
+              else {
+                id_primary = object._id;
+              };
+            });
+          });
+        }  
     }, 1000);
 });
 
