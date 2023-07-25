@@ -81,6 +81,20 @@ async function Create(email, phoneNumber) {
                   if(data[0].linkedId == null) {idtobekeptprimary = data[0]._id}
                 else {idtobekeptprimary = data[0].linkedId; }   };
             });
+
+            
+        // Updating primary account into secondary ones
+        if (allEmails.includes(email) && allnumbers.includes(phoneNumber)) {
+            await Contact.updateMany(
+              {
+                $and: [
+                  { $or: [{ email: email }, { phoneNumber: phoneNumber }] },
+                  { _id: { $ne: idtobekeptprimary } },
+                ],
+              },
+              { linkPrecedence: "secondary", linkedId: idtobekeptprimary }
+            );
+          }
         }
     });
 };
