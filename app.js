@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const mongoose = require("mongoose");
 
@@ -10,7 +11,8 @@ app.use(express.json());
 
 
 ////////////////////////////////////////////////////////////////////
-mongoose.connect("mongodb://127.0.0.1:27017/ContactDB");
+mongoose.connect(process.env.MONGO_URL).then(()=>console.log("Connected to MongoDB"));               
+
 
 const contactSchema = new mongoose.Schema(
   {
